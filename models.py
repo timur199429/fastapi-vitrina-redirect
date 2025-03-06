@@ -14,6 +14,7 @@ class OneprofitClickback(SQLModel, table=True):
     subid5: str | None
     created_at: str | None
     order_id: str | None
+    
 
 class OneprofitClick(SQLModel, table=True):
     __tablename__ = 'oneprofit_click'

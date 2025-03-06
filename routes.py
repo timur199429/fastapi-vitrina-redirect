@@ -66,10 +66,18 @@ async def clickback(amount: str = None,
                     subid5: str = None, 
                     created_at: str = None, 
                     order_id: str = None, session: Session = Depends(get_session)):
+    
+    # Преобразуем пустые строки в None
+    subid3 = subid3 if subid3 != "" else None
+    subid4 = subid4 if subid4 != "" else None
+    subid5 = subid5 if subid5 != "" else None
+    subid3 = subid3 if subid3 != " " else None
+    subid4 = subid4 if subid4 != " " else None
+    subid5 = subid5 if subid5 != " " else None
+
+
     click = OneprofitClickback(amount=amount, stream=stream, subid1=subid1, subid2=subid2, subid3=subid3, subid4=subid4, subid5=subid5, created_at=created_at, order_id=order_id)
     session.add(click)
     session.commit()
     session.refresh(click)
-    # if subid5 == 'adprofex' & amount == float(amount) > 0:
-    #     requests.get(f'https://postback.ads2.bid/api/postback/?tracker_id=3&event_id=1751&click_id={subid4}&cpa={cost}&status={status}&goal_category_id=1&user_id=215')
     return {'message':'ok'}

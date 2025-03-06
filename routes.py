@@ -16,11 +16,10 @@ async def redirect_oneprofit(
 ):
     # Получаем User-Agent из заголовков запроса
     user_agent_string = request.headers.get('user-agent')
-    user_ip = request.headers.get("x-forwarded-for")
-    if user_ip:
-        user_ip = user_ip.split(",")[0]  # Берем первый IP из списка
-    else:
+    try:
         user_ip = request.client.host  # Если заголовка нет, используем client.host
+    except:
+        user_ip = '0.0.0.0'
 
     # Читаем домен из файла
     with open('domain.txt', 'r') as file:

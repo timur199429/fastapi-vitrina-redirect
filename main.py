@@ -61,6 +61,6 @@ atexit.register(lambda: scheduler.shutdown())
 
 
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app)
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app)

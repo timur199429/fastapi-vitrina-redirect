@@ -1,3 +1,4 @@
+import logging
 import requests
 from sqlmodel import Session
 from models import OneprofitClick, OneprofitClickback
@@ -57,27 +58,45 @@ async def add_click_to_db(session: Session, user_agent: str, query_params: dict,
     session.refresh(click)
 
 @router.get('/clickback')
-async def clickback(amount: str = None, 
-                    stream: str = None, 
-                    subid1: str = None, 
-                    subid2: str = None,
-                    subid3: str = None, 
-                    subid4: str = None,
-                    subid5: str = None, 
-                    created_at: str = None, 
-                    order_id: str = None, session: Session = Depends(get_session)):
-    
-    # Преобразуем пустые строки в None
-    subid3 = subid3 if subid3 != "" else None
-    subid4 = subid4 if subid4 != "" else None
-    subid5 = subid5 if subid5 != "" else None
-    subid3 = subid3 if subid3 != " " else None
-    subid4 = subid4 if subid4 != " " else None
-    subid5 = subid5 if subid5 != " " else None
+async def clickback(
+    amount: str | None = None,
+    stream: str | None = None,
+    subid1: str | None = None,
+    subid2: str | None = None,
+    subid3: str | None = None,
+    subid4: str | None = None,
+    subid5: str | None = None,
+    created_at: str | None = None,
+    order_id: str | None = None,
+    session: Session = Depends(get_session)
+):
+    # Очищаем пробелы и преобразуем пустые строки в None
+    subid3 = subid3.strip() if subid3 else None
+    subid4 = subid4.strip() if subid4 else None
+    subid5 = subid5.strip() if subid5 else None
 
+    # Если после очистки строка пустая, преобразуем в None
+    subid3 = subid3 if subid3 else None
+    subid4 = subid4 if subid4 else None
+    subid5 = subid5 if subid5 else None
 
-    click = OneprofitClickback(amount=amount, stream=stream, subid1=subid1, subid2=subid2, subid3=subid3, subid4=subid4, subid5=subid5, created_at=created_at, order_id=order_id)
+    # Логируем параметры для отладки
+    logging.info(f"Received clickback request with parameters: amount={amount}, stream={stream}, subid1={subid1}, subid2={subid2}, subid3={subid3}, subid4={subid4}, subid5={subid5}, created_at={created_at}, order_id={order_id}")
+
+    # Создаем объект и сохраняем в базу данных
+    click = OneprofitClickback(
+        amount=amount,
+        stream=stream,
+        subid1=subid1,
+        subid2=subid2,
+        subid3=subid3,
+        subid4=subid4,
+        subid5=subid5,
+        created_at=created_at,
+        order_id=order_id
+    )
     session.add(click)
     session.commit()
     session.refresh(click)
-    return {'message':'ok'}
+
+    return {'message': 'ok'}

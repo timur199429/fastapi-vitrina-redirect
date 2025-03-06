@@ -1,6 +1,6 @@
 from sqlmodel import SQLModel, Field
 import datetime as dt
-from zoneinfo import ZoneInfo
+import pytz
 
 class OneprofitClickback(SQLModel, table=True):
     __tablename__ = 'oneprofit_clickback'
@@ -29,4 +29,4 @@ class OneprofitClick(SQLModel, table=True):
     source_campaign_id: str | None
     source_name: str | None
     source_cpc: str | None
-    datetime: dt.datetime = Field(default=dt.datetime.now(ZoneInfo("Europe/Moscow")))
+    datetime: dt.datetime = Field(default=dt.datetime.now(pytz.timezone("Europe/Moscow")))

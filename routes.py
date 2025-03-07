@@ -98,5 +98,7 @@ async def clickback(
     session.add(click)
     session.commit()
     session.refresh(click)
+    if subid5 == 'adprofex':
+        requests.post(f'https://postback.ads2.bid/api/postback/?tracker_id=3&event_id=1751&click_id={subid4}&cpa={amount}&status=approve&goal_category_id=1&user_id=215')
 
     return {'message': 'ok'}

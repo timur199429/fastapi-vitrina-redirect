@@ -17,10 +17,6 @@ async def redirect_oneprofit(
 ):
     # Получаем User-Agent из заголовков запроса
     user_agent_string = request.headers.get('user-agent')
-    try:
-        user_ip = request.client.host  # Если заголовка нет, используем client.host
-    except:
-        user_ip = '0.0.0.0'
 
     # Читаем домен из файла
     with open('domain.txt', 'r') as file:
@@ -28,19 +24,25 @@ async def redirect_oneprofit(
 
     # Получаем query-параметры из запроса
     query_params = request.query_params
-
+    # utm_campaign=76406&utm_content=00f9eb05-6333-4b6b-932a-130f97a420b7&utm_source=[SID]&utm_medium=2329&sid6=[TID]&sid7=[CAMPAIGN]&subid3=[CPCP]&subid4=[CLICK_ID]&subid5=adprofex&is_visitor=1&adp_click=[CLICK_ID]
     # Формируем URL для редиректа
-    url = f'https://{domain}/preview/new'
+    url = f'https://{domain}/preview/new?'
     if query_params:
-        url += '?is_visitor=1' + '&'.join([f'{key}={value}' for key, value in query_params.items()])
+        url += '&'.join([f'{key}={value}' for key, value in query_params.items()])
 
     # Добавляем задачу в фоновые задачи
-    background_tasks.add_task(add_click_to_db, session, user_agent_string, dict(query_params), user_ip)
+    background_tasks.add_task(add_click_to_db, session, user_agent_string, dict(query_params), request=request)
 
     # # Выполняем редирект
     return RedirectResponse(url=url, status_code=302)
 
-async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str):
+async def add_click_to_db(session: Session, user_agent: str, query_params: dict, request: Request):
+    client_host = request.headers.get("x-forwarded-for")
+    if client_host:
+        print(client_host)
+        user_ip = client_host.split(",")[0]  # Берем первый IP из цепочки
+    else:
+        user_ip = request.client.host
     click = OneprofitClick(
         user_agent=user_agent,
         user_ip = user_ip,

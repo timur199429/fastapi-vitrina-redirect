@@ -49,9 +49,9 @@ scheduler.start()
 # Добавляем задачу в планировщик
 scheduler.add_job(
     func=get_domain,  # Функция, которую нужно выполнять
-    trigger=IntervalTrigger(minutes=30),  # Интервал выполнения (каждые 10 минут)
+    trigger=IntervalTrigger(minutes=30),  # Интервал выполнения (каждые 30 минут)
     id="get_domain_job",  # Идентификатор задачи
-    name="Update domain every 10 minutes",  # Имя задачи
+    name="Update domain every 30 minutes",  # Имя задачи
     replace_existing=True,  # Заменить существующую задачу, если она уже есть
 )
 

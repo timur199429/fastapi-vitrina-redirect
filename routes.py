@@ -18,6 +18,8 @@ async def redirect_oneprofit(
     # Получаем User-Agent из заголовков запроса
     user_agent_string = request.headers.get('user-agent')
 
+    print(request.headers)
+
     # Читаем домен из файла
     with open('domain.txt', 'r') as file:
         domain = file.read().strip()

@@ -11,7 +11,8 @@ class NutraClick(SQLModel, table=True):
     country_code: str | None
     city: str | None
     region: str | None
-    url : str | None
+    offer_category: str | None
+    landing_name: str | None
     site_id : str | None
     teaser_id: str | None
     campaign_id: str | None

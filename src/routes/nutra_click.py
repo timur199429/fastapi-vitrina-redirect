@@ -23,7 +23,7 @@ async def serve_landing(hypert: str, landing_name: str, request: Request, backgr
     # Check if the file exists
     if os.path.exists(index_path):
         with open(index_path, 'rb') as file:
-            background_tasks.add_task(add_click_to_db, session, user_agent_string, query_params, user_ip, url=index_path)
+            background_tasks.add_task(add_click_to_db, session, user_agent_string, query_params, user_ip, offer_category=hypert,landing_name=landing_name)
             return HTMLResponse(content=file.read())
     
     # If the file doesn't exist, return a 404 error
@@ -92,7 +92,7 @@ async def get_location(ip: str) -> tuple:
     except:
         return (None, None, None)
 
-async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str, url: str):
+async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str, offer_category: str, landing_name: str):
     country_code, city, region = await get_location(user_ip)
     click = NutraClick(
         user_agent=user_agent,
@@ -100,7 +100,8 @@ async def add_click_to_db(session: Session, user_agent: str, query_params: dict,
         country_code = country_code,
         city = city,
         region = region,
-        url = url,
+        offer_category = offer_category,
+        landing_name = landing_name,
         site_id = query_params.get('site_id'),
         teaser_id=query_params.get('teaser_id'),
         campaign_id=query_params.get('campaign_id'),

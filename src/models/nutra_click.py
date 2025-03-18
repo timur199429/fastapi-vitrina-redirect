@@ -8,6 +8,8 @@ class NutraClick(SQLModel, table=True):
     id: int = Field(primary_key=True)
     user_agent: str | None
     user_ip: str | None
+    country_code: str | None
+    city: str | None
     url : str | None
     site_id : str | None
     teaser_id: str | None

@@ -11,6 +11,8 @@ class OneprofitClick(SQLModel, table=True):
     id: int = Field(primary_key=True)
     user_agent: str | None
     user_ip: str | None
+    country_code: str | None
+    city: str | None
     news_hash: str | None
     flow_id: str | None
     site_id: str | None

@@ -1,4 +1,7 @@
+# todo нужен сбор страны и города
+import httpx
 from sqlmodel import Session
+
 from fastapi import BackgroundTasks, Depends, Request, APIRouter
 from fastapi.responses import RedirectResponse
 from src.db import get_session
@@ -44,10 +47,27 @@ async def redirect_oneprofit(
     # # Выполняем редирект
     return RedirectResponse(url=url, status_code=302)
 
+async def get_location(ip: str) -> tuple:
+    try:
+        url = f"https://ipinfo.io/{ip}/json"
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+            data = response.json()
+        
+        country_code = data.get("country", "")
+        city = data.get("city", "")
+        return (country_code, city)
+    except:
+        return (None, None)
+
 async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str):
+    country_code, city = get_location(user_ip)
+    
     click = OneprofitClick(
         user_agent=user_agent,
         user_ip = user_ip,
+        country_code = country_code,
+        city = city,
         news_hash=query_params.get('news_hash'),
         flow_id=query_params.get('flow_id'),
         site_id=query_params.get('site_id'),

@@ -61,7 +61,7 @@ async def get_location(ip: str) -> tuple:
         return (None, None)
 
 async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str):
-    country_code, city = get_location(user_ip)
+    country_code, city = await get_location(user_ip)
     
     click = OneprofitClick(
         user_agent=user_agent,

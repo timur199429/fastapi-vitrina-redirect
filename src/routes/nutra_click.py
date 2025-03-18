@@ -90,7 +90,7 @@ async def get_location(ip: str) -> tuple:
         region = data.get("region", "")
         return (country_code, city, region)
     except:
-        return (None, None)
+        return (None, None, None)
 
 async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str, url: str):
     country_code, city, region = await get_location(user_ip)

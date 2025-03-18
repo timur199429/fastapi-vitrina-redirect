@@ -1,4 +1,5 @@
 import os
+import httpx
 import requests
 from sqlmodel import Session
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Request
@@ -77,11 +78,28 @@ async def submit_form(request: Request):
     # Редирект на страницу успеха
     return RedirectResponse(url="/success", status_code=303)
 
+async def get_location(ip: str) -> tuple:
+    try:
+        url = f"https://ipinfo.io/{ip}/json"
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+            data = response.json()
+        
+        country_code = data.get("country", "")
+        city = data.get("city", "")
+        region = data.get("region", "")
+        return (country_code, city, region)
+    except:
+        return (None, None)
 
-def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str, url: str):
+async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str, url: str):
+    country_code, city, region = await get_location(user_ip)
     click = NutraClick(
         user_agent=user_agent,
         user_ip = user_ip,
+        country_code = country_code,
+        city = city,
+        region = region,
         url = url,
         site_id = query_params.get('site_id'),
         teaser_id=query_params.get('teaser_id'),

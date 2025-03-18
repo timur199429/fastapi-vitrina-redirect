@@ -56,18 +56,20 @@ async def get_location(ip: str) -> tuple:
         
         country_code = data.get("country", "")
         city = data.get("city", "")
-        return (country_code, city)
+        region = data.get("region", "")
+        return (country_code, city, region)
     except:
         return (None, None)
 
 async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str):
-    country_code, city = await get_location(user_ip)
+    country_code, city, region = await get_location(user_ip)
     
     click = OneprofitClick(
         user_agent=user_agent,
         user_ip = user_ip,
         country_code = country_code,
         city = city,
+        region = region,
         news_hash=query_params.get('news_hash'),
         flow_id=query_params.get('flow_id'),
         site_id=query_params.get('site_id'),

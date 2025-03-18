@@ -13,6 +13,7 @@ class OneprofitClick(SQLModel, table=True):
     user_ip: str | None
     country_code: str | None
     city: str | None
+    region: str | None
     news_hash: str | None
     flow_id: str | None
     site_id: str | None

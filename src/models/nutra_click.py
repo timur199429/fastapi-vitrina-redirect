@@ -10,6 +10,7 @@ class NutraClick(SQLModel, table=True):
     user_ip: str | None
     country_code: str | None
     city: str | None
+    region: str | None
     url : str | None
     site_id : str | None
     teaser_id: str | None

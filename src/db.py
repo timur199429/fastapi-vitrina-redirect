@@ -7,9 +7,9 @@ URL_DATABASE = f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PAS
 
 engine = create_engine(URL_DATABASE)
 
-def db_init():
-    # Create all tables in the database
-    SQLModel.metadata.create_all(engine)
+# def db_init():
+#     # Create all tables in the database
+#     SQLModel.metadata.create_all(engine)
 
 
 # Dependency: Get the session

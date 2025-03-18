@@ -23,3 +23,5 @@ python-dotenv
 psycopg2-binary
 pg8000
 pytz
+sqlmodel
+alembic

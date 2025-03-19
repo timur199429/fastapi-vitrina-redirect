@@ -1,9 +1,11 @@
 # todo нужен сбор страны и города
 import httpx
 from sqlmodel import Session
+from user_agents import parse
 
 from fastapi import BackgroundTasks, Depends, Request, APIRouter
 from fastapi.responses import RedirectResponse
+
 from src.db import get_session
 from src.models import OneprofitClick
 
@@ -63,9 +65,21 @@ async def get_location(ip: str) -> tuple:
 
 async def add_click_to_db(session: Session, user_agent: str, query_params: dict, user_ip: str):
     country_code, city, region = await get_location(user_ip)
+
+    user_agent_parse = parse(user_agent)
+    browser = user_agent_parse.browser.family  # Браузер
+    browser_version = user_agent_parse.browser.version  # Версия браузера
+    os = user_agent_parse.os.family  # Операционная система
+    os_version = user_agent_parse.os.version  # Версия ОС
+    device = user_agent_parse.device.family # tablet desktop mobile
     
     click = OneprofitClick(
         user_agent=user_agent,
+        user_agent_browser=browser,
+        user_agent_browser_version=browser_version,
+        user_agent_os = os,
+        user_agent_os_version = os_version,
+        user_agent_device = device ,
         user_ip = user_ip,
         country_code = country_code,
         city = city,

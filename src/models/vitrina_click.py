@@ -39,4 +39,4 @@ class OneprofitClick(SQLModel, table=True):
     subid3: str | None
     subid4: str | None
     subid5: str | None
-    datetime: dt.datetime = Field(default=dt.datetime.now(pytz.timezone("Europe/Moscow")))
+    datetime: dt.datetime = Field(sa_column_kwargs={'server_default': "CURRENT_TIMESTAMP AT TIME ZONE 'Europe/Moscow'"})

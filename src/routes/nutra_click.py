@@ -60,24 +60,28 @@ async def submit_form(request: Request):
     # Получаем все данные формы, включая скрытые поля
     form_data = await request.form()
     
+    # referer
+    referer_url = request.headers.get("Referer")
+    
     # Извлекаем имя и телефон
     name = form_data.get("name")
     phone = form_data.get("phone")
+    click_id = form_data.get("click_id")
     
     # Формируем сообщение для Telegram
-    message = f"Новый лид!\nИмя: {name}\nТелефон: {phone}"
+    message = f"Новый лид!\nИмя: {name}\nТелефон: {phone}\nclick_id: {click_id}\nReferer: {referer_url}"
     
-    # Добавляем query-параметры (скрытые поля) в сообщение
-    for key, value in form_data.items():
-        if key not in ["name", "phone"]:  # Исключаем поля name и phone
-            message += f"\n{key}: {value}"
+    # # Добавляем query-параметры (скрытые поля) в сообщение
+    # for key, value in form_data.items():
+    #     if key not in ["name", "phone"]:  # Исключаем поля name и phone
+    #         message += f"\n{key}: {value}"
     
     # Отправляем сообщение в Telegram
     telegram_response = send_telegram_message(message)
     # print("Telegram response:", telegram_response)
     
     # Редирект на страницу успеха
-    return RedirectResponse(url="/success", status_code=303)
+    return RedirectResponse(url="/order/success", status_code=303)
 
 async def get_location(ip: str) -> tuple:
     try:

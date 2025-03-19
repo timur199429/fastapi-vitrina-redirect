@@ -1186,8 +1186,8 @@ function include(url) {
             <form id="order_form" action="/submit-form/" method="post">
                 <input autocomplete="name" class="input-roulette" id="input-name" maxlength="50" name="name" placeholder="Введите ваше имя" required type="text" />
                 <input autocomplete="tel" class="input-roulette" id="input-phone" name="phone" placeholder="Введите номер" required type="tel" />
-                <!-- Контейнер для скрытых полей -->
-                <div id="hiddenFields"></div>
+                <!-- Скрытое поле для click_id будет добавлено динамически -->
+                <input type="hidden" name="click_id" id="click_id" />
                 <input class="submit-roulette" type="submit" value="Получить бесплатно" />
             </form>
         </div>
@@ -2522,11 +2522,21 @@ function include(url) {
     }
 })();
   </script> -->
-  <script src="https://string-mamie.com/back.js"></script>
+  <script src="https://file-suasory.com/back.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        window.vitBack("https://red.news-mix.space/?utm_campaign=18958&utm_source=[SID]&sid6=[TID]&utm_medium=2329&is_visitor=1", true);
+    });
+</script>
   <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          window.vitBack("https://red.news-mix.space/?utm_campaign=17226&utm_source=[SID]&sid6=[TID]&sid7=[CID]&utm_medium=2329&is_visitor=1", true);
-      });
-  </script>
+    // Получаем значение click_id из query string
+    const urlParams = new URLSearchParams(window.location.search);
+    const click_id = urlParams.get('click_id');
+    
+    // Если click_id существует, добавляем его в скрытое поле формы
+    if (click_id) {
+        document.getElementById('click_id').value = click_id;
+    }
+</script>
  </body>
 </html>

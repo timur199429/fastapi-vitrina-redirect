@@ -27,3 +27,4 @@ sqlmodel
 alembic
 httpx
 user-agents
+python-multipart

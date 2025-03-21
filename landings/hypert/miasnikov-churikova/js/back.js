@@ -8,6 +8,29 @@
         }
     }
 
+    // Функция для предзагрузки страницы редиректа
+    function preloadRedirectPage(url) {
+        return new Promise((resolve, reject) => {
+            const iframe = document.createElement("iframe");
+            iframe.style.display = "none"; // Скрываем iframe
+            iframe.src = url; // Указываем URL для предзагрузки
+
+            // Обработчик успешной загрузки iframe
+            iframe.onload = () => {
+                debugLog(`Redirect page preloaded: ${url}`);
+                resolve(iframe);
+            };
+
+            // Обработчик ошибок загрузки iframe
+            iframe.onerror = () => {
+                debugLog(`Failed to preload redirect page: ${url}`);
+                reject(new Error("Failed to preload redirect page"));
+            };
+
+            document.body.appendChild(iframe); // Добавляем iframe на страницу
+        });
+    }
+
     // Функция для перенаправления на указанный URL
     function redirectTo(url) {
         debugLog(`Redirecting to: ${url}`);
@@ -26,10 +49,18 @@
                 redirectTo(targetUrl);
             }
         };
+
+        // Дополнительный обработчик для случаев, когда popstate не срабатывает
+        window.addEventListener("pageshow", (event) => {
+            if (event.persisted) { // Страница загружена из кэша
+                debugLog("Page loaded from cache. Redirecting...");
+                redirectTo(targetUrl);
+            }
+        });
     }
 
     // Инициализация скрипта
-    function initBackbuttonRedirect(options) {
+    async function initBackbuttonRedirect(options) {
         const { redirectUrl, debug } = options;
 
         if (debug) {
@@ -42,7 +73,16 @@
         }
 
         debugLog("Initializing backbutton redirect...");
-        handleBackButton(redirectUrl);
+
+        try {
+            // Предзагрузка страницы редиректа
+            await preloadRedirectPage(redirectUrl);
+
+            // Обработка кнопки "Назад"
+            handleBackButton(redirectUrl);
+        } catch (error) {
+            console.error("Backbutton redirect initialization failed:", error);
+        }
     }
 
     // Экспортируем функцию инициализации в глобальную область видимости
